@@ -76,7 +76,7 @@ function Navbar() {
               </NavLink>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/carrito" aria-label="Carrito">
+              <Link className="nav-link" to="/cart" aria-label="Cart">
                 <i className="bi bi-cart" />
               </Link>
             </li>
