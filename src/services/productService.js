@@ -4,8 +4,10 @@ import api from './api'
 // Reusa la instancia `api`, así hereda baseURL, timeout y headers.
 
 // GET /products → devuelve la lista de productos.
-export async function getProducts() {
-  const { data } = await api.get('/products')
+export async function getProducts(params = {}) {
+  const { data } = await api.get('/products', {
+    params,
+  })
   return data
 }
 
