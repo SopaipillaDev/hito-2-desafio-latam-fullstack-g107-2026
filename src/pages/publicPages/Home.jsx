@@ -8,8 +8,11 @@ const CATEGORIES = [
   { name: 'Arte y Diseño', icon: 'bi-palette' },
 ]
 
+// Params estables para el hook: la portada muestra solo 4 destacados.
+const FEATURED_PARAMS = { limit: 4 }
+
 function Home() {
-  const { products, loading, error } = useProducts()
+  const { products, loading, error } = useProducts(FEATURED_PARAMS)
   const featured = products.slice(0, 4)
 
   return (
