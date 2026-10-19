@@ -7,7 +7,7 @@ import { useUser } from '../context/UserContext'
 function AdminRoute() {
   const { isAdmin } = useUser()
 
-  if (isAdmin) {
+  if (!isAdmin) {
     return <Navigate to="/" replace />
   }
 
