@@ -17,7 +17,7 @@ function Nosotros() {
                 Una idea que nació para conectar
               </h1>
 
-              <p className="lead text-secondary mb-0">
+              <p className="lead text-body-secondary mb-0">
                 Creamos este espacio pensando en una idea sencilla:
                 hacer que encontrar, descubrir y compartir productos
                 sea una experiencia mucho más fácil.
@@ -47,20 +47,20 @@ function Nosotros() {
                   De una idea simple a un espacio para descubrir
                 </h2>
 
-                <p className="text-secondary fs-5">
+                <p className="text-body-secondary fs-5">
                   Todo comenzó con una pregunta: ¿cómo podemos hacer
                   que buscar y encontrar productos sea una experiencia
                   más sencilla?
                 </p>
 
-                <p className="text-secondary fs-5">
+                <p className="text-body-secondary fs-5">
                   A partir de esa idea nació nuestro marketplace, un
                   espacio pensado para reunir publicaciones en un solo
                   lugar y facilitar la forma en que las personas
                   exploran diferentes opciones.
                 </p>
 
-                <p className="text-secondary fs-5 mb-0">
+                <p className="text-body-secondary fs-5 mb-0">
                   Poco a poco fuimos construyendo una plataforma donde
                   la organización, la claridad y la facilidad de uso
                   fueran parte importante de la experiencia.
@@ -92,7 +92,7 @@ function Nosotros() {
                 Queremos hacer las cosas simples.
               </h2>
 
-              <p className="text-secondary fs-5">
+              <p className="text-body-secondary fs-5">
                 Creemos que una buena experiencia no necesita ser
                 complicada. Por eso buscamos que cada parte de nuestro
                 marketplace sea clara, ordenada y fácil de utilizar.
@@ -119,7 +119,7 @@ function Nosotros() {
                     Cercanía
                   </h3>
 
-                  <p className="text-secondary mb-0">
+                  <p className="text-body-secondary mb-0">
                     Diseñamos pensando en las personas y en la forma
                     en que realmente utilizan una plataforma.
                   </p>
@@ -144,7 +144,7 @@ function Nosotros() {
                     Simplicidad
                   </h3>
 
-                  <p className="text-secondary mb-0">
+                  <p className="text-body-secondary mb-0">
                     Queremos que encontrar lo que buscas sea rápido,
                     claro y sin complicaciones.
                   </p>
@@ -169,7 +169,7 @@ function Nosotros() {
                     Innovación
                   </h3>
 
-                  <p className="text-secondary mb-0">
+                  <p className="text-body-secondary mb-0">
                     Buscamos constantemente nuevas formas de mejorar
                     la experiencia dentro de nuestro marketplace.
                   </p>
@@ -200,7 +200,7 @@ function Nosotros() {
                   Gracias por ser parte de esta historia.
                 </h2>
 
-                <p className="text-secondary fs-5 mb-4">
+                <p className="text-body-secondary fs-5 mb-4">
                   Te invitamos a conocer nuestras publicaciones y
                   descubrir todo lo que nuestro marketplace tiene
                   para ofrecer.
