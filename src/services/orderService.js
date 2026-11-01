@@ -42,7 +42,7 @@ export async function getOrderFiles(id) {
   return data
 }
 
-// PUT /orders/:id/status → cambiar estado de la orden (admin · Fase 2).
+// PUT /orders/:id/status → cambiar estado de la orden (admin).
 export async function updateOrderStatus(id, status) {
   const { data } = await api.put(
     `/orders/${id}/status`,

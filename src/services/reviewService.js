@@ -17,7 +17,7 @@ export async function createReview(productId, review) {
   return data
 }
 
-// GET /users/me/reviews → reseñas del usuario logueado (Fase 2).
+// GET /users/me/reviews → reseñas del usuario logueado.
 export async function getMyReviews() {
   const { data } = await api.get('/users/me/reviews', {
     headers: getAuthHeaders(),

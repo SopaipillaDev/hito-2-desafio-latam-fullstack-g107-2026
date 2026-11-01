@@ -58,9 +58,9 @@ function Galeria() {
       <div className="container">
         {/* Encabezado */}
         <div className="mb-4">
-          <h1 className="display-6 fw-bold">Galería de publicaciones</h1>
+          <h1 className="display-6 fw-bold">Galería de productos</h1>
           <p className="text-secondary">
-            Explora nuestros productos y recursos.
+            Explora nuestros productos y recursos para potenciar tu aprendizaje.
           </p>
         </div>
 
@@ -78,7 +78,7 @@ function Galeria() {
                 id="search"
                 type="search"
                 className="form-control bg-dark text-light border-secondary"
-                placeholder="Buscar productos..."
+                placeholder="Buscar..."
                 value={search}
                 onChange={(event) => changeSearch(event.target.value)}
               />
@@ -105,7 +105,7 @@ function Galeria() {
         <div className="row g-4">
           {/* Filtros */}
           <aside className="col-12 col-lg-3">
-            <div className="card bg-black text-light border-secondary">
+            <div className="card text-light border-secondary">
               <div className="card-body">
                 <h2 className="h5 mb-3">Categorías</h2>
                 <div className="d-flex flex-column gap-2">
