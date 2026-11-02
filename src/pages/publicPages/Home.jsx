@@ -1,18 +1,21 @@
 import { useProducts } from '../../hooks/useProducts'
+import { useCategories } from '../../hooks/useCategories'
 import ProductCard from '../../components/ProductCard'
 
-const CATEGORIES = [
-  { name: 'Unity', icon: 'bi-box' },
-  { name: 'Unreal Engine', icon: 'bi-controller' },
-  { name: 'Programación', icon: 'bi-code-slash' },
-  { name: 'Arte y Diseño', icon: 'bi-palette' },
-]
+// El backend no envía iconos: se asignan por slug y las demás usan un icono genérico.
+const CATEGORY_ICONS = {
+  unity: 'bi-box',
+  'unreal-engine': 'bi-controller',
+  programacion: 'bi-code-slash',
+  'arte-y-diseno': 'bi-palette',
+}
 
 // Params estables para el hook: la portada muestra solo 4 destacados.
 const FEATURED_PARAMS = { limit: 4 }
 
 function Home() {
   const { products, loading, error } = useProducts(FEATURED_PARAMS)
+  const { categories } = useCategories()
   const featured = products.slice(0, 4)
 
   return (
@@ -54,11 +57,13 @@ function Home() {
         <h2 className="h3 mb-4">Categorías</h2>
 
         <div className="row g-4">
-          {CATEGORIES.map((category) => (
-            <div className="col-6 col-lg-3" key={category.name}>
+          {categories.map((category) => (
+            <div className="col-6 col-lg-3" key={category.id}>
               <div className="card h-100 border-0 shadow-sm text-center">
                 <div className="card-body">
-                  <i className={`bi ${category.icon} fs-1 text-primary`} />
+                  <i
+                    className={`bi ${CATEGORY_ICONS[category.slug] ?? 'bi-tag'} fs-1 text-primary`}
+                  />
                   <h3 className="h6 mt-3 mb-0">{category.name}</h3>
                 </div>
               </div>

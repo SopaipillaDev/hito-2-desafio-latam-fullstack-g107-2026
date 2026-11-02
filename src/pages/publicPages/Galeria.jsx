@@ -1,43 +1,46 @@
 // Galería de publicaciones. El filtrado, la búsqueda, el orden y la paginación
 // los hace el SERVIDOR vía query params de GET /products (category, search,
 // order_by, limit, page). Cambiar cualquier filtro reinicia a la página 1.
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { useProducts } from '../../hooks/useProducts'
+import { useCategories } from '../../hooks/useCategories'
 import ProductCard from '../../components/ProductCard'
-
-// Slugs de categoría del contrato; deben coincidir con el backend.
-const CATEGORIES = [
-  { id: 'all', name: 'Todas', slug: '' },
-  { id: 'unity', name: 'Unity', slug: 'unity' },
-  { id: 'unreal-engine', name: 'Unreal Engine', slug: 'unreal-engine' },
-  { id: 'programacion', name: 'Programación', slug: 'programacion' },
-  { id: 'arte-y-diseno', name: 'Arte y Diseño', slug: 'arte-y-diseno' },
-]
 
 const PAGE_SIZE = 12
 
 function Galeria() {
-  const [category, setCategory] = useState('all')
+  const [searchParams] = useSearchParams()
+  const { categories } = useCategories()
+
+  // La categoría se guarda por slug; cadena vacía significa "Todas".
+  const [category, setCategory] = useState(searchParams.get('category') ?? '')
   const [search, setSearch] = useState('')
   const [sort, setSort] = useState('')
   const [page, setPage] = useState(1)
 
+  // Si llega otra categoría por la URL (por ejemplo, desde el Navbar), se aplica.
+  useEffect(() => {
+    setCategory(searchParams.get('category') ?? '')
+    setPage(1)
+  }, [searchParams])
+
   // Params del contrato, estables (useMemo) para no disparar el efecto en bucle.
-  const params = useMemo(() => {
-    const selected = CATEGORIES.find((item) => item.id === category)
-    return {
-      category: selected?.slug || undefined,
+  const params = useMemo(
+    () => ({
+      category: category || undefined,
       search: search.trim() || undefined,
       order_by: sort || undefined,
       limit: PAGE_SIZE,
       page,
-    }
-  }, [category, search, sort, page])
+    }),
+    [category, search, sort, page],
+  )
 
   const { products, loading, error, total, totalPages } = useProducts(params)
 
-  function changeCategory(id) {
-    setCategory(id)
+  function changeCategory(slug) {
+    setCategory(slug)
     setPage(1)
   }
 
@@ -109,20 +112,22 @@ function Galeria() {
               <div className="card-body">
                 <h2 className="h5 mb-3">Categorías</h2>
                 <div className="d-flex flex-column gap-2">
-                  {CATEGORIES.map((item) => (
-                    <button
-                      key={item.id}
-                      type="button"
-                      className={`btn text-start ${
-                        category === item.id
-                          ? 'btn-primary'
-                          : 'btn-outline-secondary'
-                      }`}
-                      onClick={() => changeCategory(item.id)}
-                    >
-                      {item.name}
-                    </button>
-                  ))}
+                  {[{ id: 'all', name: 'Todas', slug: '' }, ...categories].map(
+                    (item) => (
+                      <button
+                        key={item.id}
+                        type="button"
+                        className={`btn text-start ${
+                          category === item.slug
+                            ? 'btn-primary'
+                            : 'btn-outline-secondary'
+                        }`}
+                        onClick={() => changeCategory(item.slug)}
+                      >
+                        {item.name}
+                      </button>
+                    ),
+                  )}
                 </div>
               </div>
             </div>

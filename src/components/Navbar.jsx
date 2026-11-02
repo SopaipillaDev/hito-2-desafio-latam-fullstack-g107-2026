@@ -1,10 +1,10 @@
 import { Link, NavLink } from 'react-router-dom'
 import { useUser } from '../context/UserContext'
-
-const CATEGORIES = ['Unity', 'Unreal Engine', 'Programación', 'Arte y Diseño']
+import { useCategories } from '../hooks/useCategories'
 
 function Navbar() {
   const { isAuthenticated } = useUser()
+  const { categories } = useCategories()
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -48,13 +48,13 @@ function Navbar() {
                 Categorías
               </button>
               <ul className="dropdown-menu">
-                {CATEGORIES.map((category) => (
-                  <li key={category}>
+                {categories.map((category) => (
+                  <li key={category.id}>
                     <Link
                       className="dropdown-item"
-                      to={`/galeria?categoria=${encodeURIComponent(category)}`}
+                      to={`/galeria?category=${category.slug}`}
                     >
-                      {category}
+                      {category.name}
                     </Link>
                   </li>
                 ))}
