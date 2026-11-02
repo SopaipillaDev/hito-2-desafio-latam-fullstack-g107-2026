@@ -164,7 +164,7 @@ function RegistroUsuarios() {
 
               <button
                 type="submit"
-                className="btn btn-dark w-100 py-2"
+                className="btn btn-warning w-100 py-2"
                 disabled={loading}
               >
                 {loading ? 'Creando cuenta...' : 'Crear Cuenta'}
