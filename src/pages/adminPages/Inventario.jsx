@@ -2,6 +2,7 @@
 // (GET /products) y permite eliminarlas (DELETE /products/:id). Solo lo ve el
 // rol admin (AdminRoute).
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { deleteProduct, getProducts } from '../../services/productService'
 import { formatCurrency } from '../../utils/formatCurrency'
 
@@ -67,7 +68,12 @@ function Inventario() {
     <div>
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h1 className="h3 mb-0">Inventario de productos</h1>
-        <span className="text-muted">{total} productos</span>
+        <div className="d-flex align-items-center gap-3">
+          <span className="text-muted">{total} productos</span>
+          <Link to="/admin/productos/nuevo" className="btn btn-primary btn-sm">
+            Nuevo producto
+          </Link>
+        </div>
       </div>
 
       {error && (

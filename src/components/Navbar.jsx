@@ -88,6 +88,11 @@ function Navbar() {
                       Inventario
                     </Link>
                   </li>
+                  <li>
+                    <Link className="dropdown-item" to="/admin/productos/nuevo">
+                      Nuevo producto
+                    </Link>
+                  </li>
                 </ul>
               </li>
             )}

@@ -14,6 +14,7 @@ import Cart from './pages/privatePages/Cart'
 import UserPerfil from './pages/privatePages/UserPerfil'
 import AdminDashboard from './pages/adminPages/AdminDashboard'
 import Inventario from './pages/adminPages/Inventario'
+import NuevoProducto from './pages/adminPages/NuevoProducto'
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
             <Route element={<AdminRoute />}>
               <Route path="/admin" element={<AdminDashboard />} />
               <Route path="/admin/productos" element={<Inventario />} />
+              <Route path="/admin/productos/nuevo" element={<NuevoProducto />} />
             </Route>
 
             {/* Comodín: cualquier URL no definida muestra el 404 */}
