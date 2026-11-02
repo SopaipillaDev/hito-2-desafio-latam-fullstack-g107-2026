@@ -13,6 +13,7 @@ import NotFound from './pages/publicPages/NotFound'
 import Cart from './pages/privatePages/Cart'
 import UserPerfil from './pages/privatePages/UserPerfil'
 import AdminDashboard from './pages/adminPages/AdminDashboard'
+import Inventario from './pages/adminPages/Inventario'
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
             {/* Contenedor que administra el acceso a las rutas de admin */}
             <Route element={<AdminRoute />}>
               <Route path="/admin" element={<AdminDashboard />} />
+              <Route path="/admin/productos" element={<Inventario />} />
             </Route>
 
             {/* Comodín: cualquier URL no definida muestra el 404 */}

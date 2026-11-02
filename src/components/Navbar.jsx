@@ -3,7 +3,7 @@ import { useUser } from '../context/UserContext'
 import { useCategories } from '../hooks/useCategories'
 
 function Navbar() {
-  const { isAuthenticated } = useUser()
+  const { isAuthenticated, isAdmin } = useUser()
   const { categories } = useCategories()
 
   return (
@@ -65,6 +65,32 @@ function Navbar() {
                 Nosotros
               </NavLink>
             </li>
+
+            {/* Menú solo para admin. Solo se enlazan las rutas ya registradas en App.jsx. */}
+            {isAdmin && (
+              <li className="nav-item dropdown">
+                <button
+                  className="nav-link dropdown-toggle"
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Administrador
+                </button>
+                <ul className="dropdown-menu">
+                  <li>
+                    <Link className="dropdown-item" to="/admin">
+                      Panel
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="dropdown-item" to="/admin/productos">
+                      Inventario
+                    </Link>
+                  </li>
+                </ul>
+              </li>
+            )}
           </ul>
 
           <ul className="navbar-nav ms-auto align-items-lg-center">
