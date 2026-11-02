@@ -54,11 +54,11 @@ function Galeria() {
   const pages = totalPages || 1
 
   return (
-    <main className="bg-dark text-light min-vh-100 py-5">
+    <main className="bg-dark text-light min-vh-100 py-2 rounded-3">
       <div className="container">
         {/* Encabezado */}
-        <div className="mb-4">
-          <h1 className="display-6 fw-bold">Galería de productos</h1>
+        <div className="mb-3">
+          <h1 className="display-5 fw-bold">Galería de productos</h1>
           <p className="text-secondary">
             Explora nuestros productos y recursos para potenciar tu aprendizaje.
           </p>

@@ -9,3 +9,10 @@ body {
   min-height: 100vh;
   background-color: #5d6164;
 }
+
+/* Bootstrap limita el ancho del contenedor por breakpoint; se amplía para reducir el espacio vacío a los costados. */
+@media (min-width: 576px)  { .container { max-width: 1400px; } }
+@media (min-width: 768px)  { .container { max-width: 1400px; } }
+@media (min-width: 992px)  { .container { max-width: 1400px; } }
+@media (min-width: 1200px) { .container { max-width: 1400px; } }
+@media (min-width: 1400px) { .container { max-width: 1600px; } }

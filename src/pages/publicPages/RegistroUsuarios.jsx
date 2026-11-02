@@ -27,6 +27,7 @@ function RegistroUsuarios() {
   const [passwordError, setPasswordError] = useState('')
   const [confirmPasswordError, setConfirmPasswordError] = useState('')
   const [apiError, setApiError] = useState('')
+  const [successMessage, setSuccessMessage] = useState('')
   const [loading, setLoading] = useState(false)
 
   async function handleSubmit(event) {
@@ -58,7 +59,9 @@ function RegistroUsuarios() {
     try {
       setLoading(true)
       await register({ name, email, password })
-      navigate('/login', { replace: true })
+      setSuccessMessage('Usuario creado con éxito. Redirigiendo al inicio de sesión...')
+      // Se espera unos segundos para que el usuario alcance a leer el mensaje antes de ir a /login.
+      setTimeout(() => navigate('/login', { replace: true }), 2000)
 
     } catch (error) {
       setApiError(
@@ -78,6 +81,12 @@ function RegistroUsuarios() {
             <p className="text-body-secondary text-center mb-4">
               Registra una cuenta de usuario
             </p>
+
+            {successMessage && (
+              <div className="alert alert-success py-2" role="status">
+                {successMessage}
+              </div>
+            )}
 
             {apiError && (
               <div className="alert alert-danger py-2" role="alert">
@@ -165,7 +174,7 @@ function RegistroUsuarios() {
               <button
                 type="submit"
                 className="btn btn-warning w-100 py-2"
-                disabled={loading}
+                disabled={loading || Boolean(successMessage)}
               >
                 {loading ? 'Creando cuenta...' : 'Crear Cuenta'}
               </button>

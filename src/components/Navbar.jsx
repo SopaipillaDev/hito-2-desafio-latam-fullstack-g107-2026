@@ -1,8 +1,11 @@
 import { Link, NavLink } from 'react-router-dom'
+import { useUser } from '../context/UserContext'
 
 const CATEGORIES = ['Unity', 'Unreal Engine', 'Programación', 'Arte y Diseño']
 
 function Navbar() {
+  const { isAuthenticated } = useUser()
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container">
@@ -65,16 +68,27 @@ function Navbar() {
           </ul>
 
           <ul className="navbar-nav ms-auto align-items-lg-center">
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/login">
-                Iniciar sesión
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/registro">
-                Registrarse
-              </NavLink>
-            </li>
+            {/* Con sesión activa se muestra el perfil en lugar de login y registro. */}
+            {isAuthenticated ? (
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/perfil">
+                  Mi perfil
+                </NavLink>
+              </li>
+            ) : (
+              <>
+                <li className="nav-item">
+                  <NavLink className="nav-link" to="/login">
+                    Iniciar sesión
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink className="nav-link" to="/registro">
+                    Registrarse
+                  </NavLink>
+                </li>
+              </>
+            )}
             <li className="nav-item">
               <Link className="nav-link" to="/cart" aria-label="Cart">
                 <i className="bi bi-cart" />

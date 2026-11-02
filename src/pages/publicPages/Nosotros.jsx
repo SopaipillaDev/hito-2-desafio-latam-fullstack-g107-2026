@@ -1,6 +1,6 @@
 function Nosotros() {
   return (
-    <section className="bg-dark text-light min-vh-100">
+    <section className="bg-dark text-light min-vh-100 ">
 
       {/* Encabezado */}
       <section className="bg-dark py-5">

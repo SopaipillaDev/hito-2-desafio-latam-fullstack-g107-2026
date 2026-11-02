@@ -1,9 +1,39 @@
 // Card reutilizable de producto para el contrato real: usa name, cover_url,
 // category.name, price y rating_avg. El category del listado es un objeto base.
-import { Link } from 'react-router-dom'
+import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { formatCurrency } from '../utils/formatCurrency'
+import { useUser } from '../context/UserContext'
+import { addFavorite, removeFavorite } from '../services/favoriteService'
 
 function ProductCard({ product }) {
+  const navigate = useNavigate()
+  const { isAuthenticated } = useUser()
+  const [isFavorite, setIsFavorite] = useState(false)
+  const [savingFavorite, setSavingFavorite] = useState(false)
+
+  // Sin sesión no se puede guardar un favorito: se envía al login.
+  async function handleToggleFavorite() {
+    if (!isAuthenticated) {
+      navigate('/login')
+      return
+    }
+
+    setSavingFavorite(true)
+    try {
+      if (isFavorite) {
+        await removeFavorite(product.id)
+      } else {
+        await addFavorite(product.id)
+      }
+      setIsFavorite(!isFavorite)
+    } catch {
+      // Si la petición falla, el corazón conserva su estado anterior.
+    } finally {
+      setSavingFavorite(false)
+    }
+  }
+
   return (
     <article className="card h-100 shadow-sm">
       <img
@@ -28,12 +58,24 @@ function ProductCard({ product }) {
         <p className="fw-bold text-primary mt-auto mb-3">
           {formatCurrency(product.price)}
         </p>
-        <Link
-          to={`/producto/${product.id}`}
-          className="btn btn-outline-primary btn-sm"
-        >
-          Ver producto
-        </Link>
+        <div className="d-flex gap-2">
+          <Link
+            to={`/producto/${product.id}`}
+            className="btn btn-outline-primary btn-sm flex-grow-1"
+          >
+            Ver producto
+          </Link>
+          <button
+            type="button"
+            className={`btn btn-sm ${isFavorite ? 'btn-danger' : 'btn-outline-danger'}`}
+            onClick={handleToggleFavorite}
+            disabled={savingFavorite}
+            aria-label={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+            aria-pressed={isFavorite}
+          >
+            <i className={`bi ${isFavorite ? 'bi-heart-fill' : 'bi-heart'}`} />
+          </button>
+        </div>
       </div>
     </article>
   )
