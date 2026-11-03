@@ -76,6 +76,9 @@ src/
 │   └── adminPages/         AdminDashboard, Inventario, NuevoProducto, OrdenesCompra, DetalleOrden
 ├── services/
 │   ├── api.js              Instancia base de axios
+│   ├── authService.js      Login, registro, sesión y token (localStorage)
+│   ├── cartService.js      Carrito: getCart / addProduct / updateQuantity / removeProduct
+│   ├── orderService.js     Órdenes: createOrder / payOrder / getMyOrders / getOrderById / getOrderFiles
 │   └── productService.js   getProducts() / getProductById()
 ├── utils/
 │   └── formatCurrency.js   Formatea montos (CLP por defecto)
@@ -104,11 +107,11 @@ Estado según lo definido en §3.5 del Documento 1. **Stub** = página con solo 
 | `/login` | Inicio de sesión | Pública | MVP | 🟡 Stub |
 | `/nosotros` | Nosotros | Pública | MVP | 🟡 Stub |
 | `/perfil` | Mi perfil | Privada (usuario) | MVP | ⬜ Pendiente (`UserPerfil` vacío) |
-| `/carrito` | Carrito | Privada (usuario) | MVP | 🟡 Stub |
+| `/cart` | Carrito | Privada (usuario) | MVP | ✅ Implementada (listado, cantidades, quitar y total; falta botón de pago) |
 | `/checkout/:orderId` | Checkout | Privada (usuario) | MVP | ⬜ Pendiente (`Checkout` vacío) |
 | `/compra-exitosa/:orderId` | Compra exitosa | Privada (usuario) | MVP | ⬜ Pendiente (`ConfirmacionCompra` vacío) |
 | `/compra-rechazada/:orderId` | Compra rechazada | Privada (usuario) | MVP | ⬜ Pendiente |
-| `/mis-compras` | Mis compras | Privada (usuario) | MVP | ⬜ Pendiente (`MisCompras` vacío) |
+| `/mis-compras` | Mis compras | Privada (usuario) | MVP | ✅ Implementada (lista de órdenes, detalle y descarga de archivos) |
 | `/favoritos` | Mis favoritos | Privada (usuario) | MVP | ⬜ Pendiente (`Favoritos` vacío) |
 | `/mis-resenas` | Mis reseñas | Privada (usuario) | Fase 2 | ⬜ Pendiente (`Reviws` vacío) |
 | `/admin` | Admin Dashboard | Privada (admin) | MVP | ⬜ Pendiente (`AdminDashboard` vacío) |
@@ -127,6 +130,9 @@ Estado según lo definido en §3.5 del Documento 1. **Stub** = página con solo 
 - **Layout global**: `Navbar` (responsive con hamburguesa y dropdown de Categorías) y `Footer`.
 - **Página principal** completa (hero, productos destacados, categorías) y componente `ProductCard`.
 - **Páginas públicas** creadas como stub con `<h1>`.
+- **Carrito** (`/cart`): listado desde `GET /cart`, cambio de cantidad, quitar productos y total.
+- **Mis compras** (`/mis-compras`): lista de órdenes, detalle al desplegar y descarga de archivos de órdenes pagadas. Enlazada desde el perfil.
+- **Services** `cartService.js` y `orderService.js`.
 - **Capa de datos**: `services/api.js` (axios) y `productService.js` + `hooks/useProducts.js`.
 - **Contexto de usuario**: `UserContext` + `useUser()` y `UserProvider` (base).
 - **Utilidades**: `formatCurrency()`.
@@ -134,17 +140,18 @@ Estado según lo definido en §3.5 del Documento 1. **Stub** = página con solo 
 
 ### Pendiente
 
-- **Contenido real de las vistas** (hoy son stubs): Galería (filtros, buscador, orden, paginación), Detalle, Login, Registro, Carrito…
+- **Contenido real de las vistas** (hoy son stubs): Galería (filtros, buscador, orden, paginación), Detalle, Login, Registro. Carrito y Mis compras ya están hechos; falta el botón de pago del Carrito.
 - **Autenticación**: implementar `login(token, user)` / `logout()` con `localStorage` (§3.4), montar `UserProvider`, crear `PrivateRoute` y `AdminRoute` y usar `jwt-decode`.
 - **Páginas privadas y de admin** + sus rutas en `App.jsx`.
-- **Services por recurso**: `authService`, `cartService`, `orderService`, `reviewService`, `favoriteService`.
+- **Services por recurso**: faltan `reviewService` y `favoriteService` (`authService`, `cartService` y `orderService` ya existen).
 - **Conectar a la API real**: hoy `productService` apunta a `fakestoreapi.com` como placeholder; usa `VITE_API_URL` cuando exista backend.
 - **Backend** (hitos posteriores).
 
 ### Detalles / deuda técnica
 
 - `react-bootstrap` sigue en `package.json` pero **el Navbar usa Bootstrap puro** (se importa el JS bundle en `main.jsx`). Decidir si se usa `react-bootstrap` o se quita la dependencia.
-- `UserProvider` **aún no está montado** en `main.jsx`/`App.jsx`.
+- `UserProvider` ya está montado en `main.jsx`.
+- `/mis-compras` y `/cart` están en `App.jsx` dentro de `ProtectedRoute`. Revisar que el enlace de `/cart` en el Navbar coincida con la ruta.
 - Nombres a revisar: `Reviws.jsx` → `Reviews.jsx`, `Cart.jsx` → `Carrito.jsx` (consistencia).
 
 ---
