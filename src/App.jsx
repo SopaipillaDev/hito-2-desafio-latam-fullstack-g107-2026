@@ -11,6 +11,7 @@ import Login from './pages/publicPages/Login'
 import RegistroUsuarios from './pages/publicPages/RegistroUsuarios'
 import NotFound from './pages/publicPages/NotFound'
 import Cart from './pages/privatePages/Cart'
+import ConfirmacionCompra from './pages/privatePages/ConfirmacionCompra'
 import UserPerfil from './pages/privatePages/UserPerfil'
 import AdminDashboard from './pages/adminPages/AdminDashboard'
 import Inventario from './pages/adminPages/Inventario'
@@ -35,6 +36,7 @@ function App() {
             <Route element={<ProtectedRoute />}>
               <Route path="/perfil" element={<UserPerfil />} />
               <Route path="/cart" element={<Cart />} />
+              <Route path="/compra-exitosa/:orderId" element={<ConfirmacionCompra />} />
             </Route>
 
             {/* Contenedor que administra el acceso a las rutas de admin */}
