@@ -96,6 +96,8 @@ function NuevoProducto() {
         description: values.description.trim() || undefined,
         price: Number(values.price),
         category_id: Number(values.category_id),
+        // Sin status el backend guarda 'draft': el curso no saldría en la Galería.
+        status: 'published',
       })
 
       if (values.cover_url.trim()) {
