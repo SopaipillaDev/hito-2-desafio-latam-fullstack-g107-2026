@@ -101,11 +101,19 @@ function Navbar() {
           <ul className="navbar-nav ms-auto align-items-lg-center">
             {/* Con sesión activa se muestra el perfil en lugar de login y registro. */}
             {isAuthenticated ? (
-              <li className="nav-item">
-                <NavLink className="nav-link" to="/perfil">
-                  Mi perfil
-                </NavLink>
-              </li>
+              <>
+                <li className="nav-item">
+                  <NavLink className="nav-link" to="/favoritos">
+                    <i className="bi bi-heart me-1" />
+                    Favoritos
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink className="nav-link" to="/perfil">
+                    Mi perfil
+                  </NavLink>
+                </li>
+              </>
             ) : (
               <>
                 <li className="nav-item">
