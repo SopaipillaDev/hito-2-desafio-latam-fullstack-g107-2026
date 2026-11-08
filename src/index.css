@@ -85,3 +85,11 @@ body {
 [data-bs-theme='dark'] .text-primary {
   color: #6ea8fe !important;
 }
+
+/* Mis compras: en teléfonos (< 576 px) las celdas usan la mitad del relleno
+   lateral (0,25rem en vez de 0,5rem). Así la tabla cabe incluso en 320 px. */
+@media (max-width: 575.98px) {
+  .tabla-compras > :not(caption) > * > * {
+    padding-inline: 0.25rem;
+  }
+}
