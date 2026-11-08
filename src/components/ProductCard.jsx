@@ -62,7 +62,7 @@ function ProductCard({ product }) {
         <div className="d-flex gap-2">
           <Link
             to={`/producto/${product.id}`}
-            className="btn btn-outline-primary btn-sm flex-grow-1"
+            className="btn btn-primary btn-sm flex-grow-1"
           >
             Ver producto
           </Link>
