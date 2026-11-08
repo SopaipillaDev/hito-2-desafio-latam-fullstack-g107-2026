@@ -1,10 +1,12 @@
 // Detalle de un curso: lee el id de la URL, pide el curso a la API
 // y permite agregarlo al carrito (requiere sesión).
+// Con useCart la página sabe, apenas entra (también al volver con "Atrás"),
+// si el curso ya está en el carrito o si ya fue comprado.
 import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { getProductById } from '../../services/productService'
-import { addProduct } from '../../services/cartService'
 import { useUser } from '../../context/UserContext'
+import { useCart } from '../../context/CartContext'
 import { formatCurrency } from '../../utils/formatCurrency'
 
 const SIN_IMAGEN = 'https://placehold.co/600x400?text=Sin+imagen'
@@ -14,6 +16,7 @@ function DetallePublicacion()
   const { id } = useParams()
   const navigate = useNavigate()
   const { isAuthenticated } = useUser()
+  const { addToCart, isInCart, isOwned } = useCart()
 
   const [product, setProduct] = useState(null)      // el curso que llega de la API
   const [loading, setLoading] = useState(true)      // ¿esperando respuesta?
@@ -30,6 +33,7 @@ function DetallePublicacion()
     {
       setLoading(true)
       setError(null)
+      setAviso(null)   // el aviso del curso anterior no aplica a este
 
       try
       {
@@ -80,15 +84,17 @@ function DetallePublicacion()
     try
     {
       // Solo viajan el curso y la cantidad: el precio lo pone el servidor.
-      await addProduct(product.id, 1)
+      // addToCart también actualiza el contador del carrito en el Navbar.
+      await addToCart(product.id)
       setAviso({ tipo: 'success', texto: 'Curso agregado a tu carrito.' })
     }
     catch (err)
     {
-      // 409 = el curso ya estaba en el carrito (UNIQUE cart_id + product_id).
+      // 409 = ya estaba en el carrito, o (con el backend nuevo) ya lo compraste.
+      // Se muestra el mensaje que manda el servidor.
       if (err.response?.status === 409)
       {
-        setAviso({ tipo: 'info', texto: 'Este curso ya está en tu carrito.' })
+        setAviso({ tipo: 'info', texto: err.response.data?.message ?? 'Este curso ya está en tu carrito.' })
       }
       else
       {
@@ -117,45 +123,75 @@ function DetallePublicacion()
 
   // Portada: la marcada con is_cover; si no hay, la primera; si no hay ninguna, el respaldo.
   const portada = product.images.find((imagen) => imagen.is_cover) ?? product.images[0]
+  const comprado = isOwned(product.id)
+  const enCarrito = isInCart(product.id)
 
   return (
-    <section className="row g-4 text-light">
-      <div className="col-md-6">
-        <img
-          src={portada?.url ?? SIN_IMAGEN}
-          alt={portada?.alt_text ?? product.name}
-          className="img-fluid rounded"
-        />
-      </div>
+    <section className="text-light">
+      <Link to="/galeria" className="link-light link-opacity-75 d-inline-block mb-3">
+        <i className="bi bi-arrow-left me-1" aria-hidden="true" />
+        Volver a la galería
+      </Link>
 
-      <div className="col-md-6">
-        <span className="badge text-bg-light mb-2">{product.category?.name}</span>
-        <h1 className="h2">{product.name}</h1>
+      <div className="row g-4 align-items-start">
+        <div className="col-md-6">
+          <img
+            src={portada?.url ?? SIN_IMAGEN}
+            alt={portada?.alt_text ?? product.name}
+            className="img-fluid rounded w-100"
+          />
+        </div>
 
-        {product.rating_avg != null && (
-          <p className="text-warning">
-            <i className="bi bi-star-fill me-1" />
-            {product.rating_avg} ({product.reviews_count} reseñas)
-          </p>
-        )}
+        <div className="col-md-6">
+          <span className="badge text-bg-light mb-2">{product.category?.name}</span>
+          <h1 className="h2">{product.name}</h1>
 
-        <p>{product.description ?? 'Sin descripción.'}</p>
-        <p className="fs-3 fw-bold">{formatCurrency(product.price)}</p>
+          {product.rating_avg != null && (
+            <p className="text-warning">
+              <i className="bi bi-star-fill me-1" aria-hidden="true" />
+              {product.rating_avg} ({product.reviews_count} reseñas)
+            </p>
+          )}
 
-        <button
-          type="button"
-          className="btn btn-primary btn-lg"
-          onClick={handleAgregar}
-          disabled={agregando}
-        >
-          {agregando ? 'Agregando…' : 'Agregar al carrito'}
-        </button>
+          <p>{product.description ?? 'Sin descripción.'}</p>
+          <p className="fs-3 fw-bold">{formatCurrency(product.price)}</p>
 
-        {aviso && (
-          <div className={`alert alert-${aviso.tipo} mt-3`}>
-            {aviso.texto} <Link to="/cart">Ver carrito</Link>
-          </div>
-        )}
+          {/* Tres casos: ya comprado, ya en el carrito o disponible para agregar. */}
+          {comprado && (
+            <div className="alert alert-success">
+              <i className="bi bi-check-circle me-2" aria-hidden="true" />
+              Ya compraste este curso. <Link to="/mis-compras" className="alert-link">Ver en Mis compras</Link>
+            </div>
+          )}
+
+          {!comprado && enCarrito && (
+            <div className="d-flex flex-wrap align-items-center gap-3">
+              <Link to="/cart" className="btn btn-primary btn-lg">
+                <i className="bi bi-cart-check me-2" aria-hidden="true" />
+                Ir al carrito
+              </Link>
+              <span className="text-body-secondary">Este curso ya está en tu carrito.</span>
+            </div>
+          )}
+
+          {!comprado && !enCarrito && (
+            <button
+              type="button"
+              className="btn btn-primary btn-lg"
+              onClick={handleAgregar}
+              disabled={agregando}
+            >
+              <i className="bi bi-cart-plus me-2" aria-hidden="true" />
+              {agregando ? 'Agregando…' : 'Agregar al carrito'}
+            </button>
+          )}
+
+          {aviso && (
+            <div className={`alert alert-${aviso.tipo} mt-3`} role="status">
+              {aviso.texto}
+            </div>
+          )}
+        </div>
       </div>
     </section>
   )

@@ -6,12 +6,14 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { getFavorites, removeFavorite } from '../../services/favoriteService'
-import { addProduct } from '../../services/cartService'
+import { useCart } from '../../context/CartContext'
 import { formatCurrency } from '../../utils/formatCurrency'
 
 const SIN_IMAGEN = 'https://placehold.co/600x400?text=Curso'
 
 function Favoritos() {
+  // addToCart (de CartProvider) agrega y actualiza el contador del Navbar.
+  const { addToCart } = useCart()
   const [favorites, setFavorites] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -77,18 +79,18 @@ function Favoritos() {
     setAddingId(productId)
 
     try {
-      await addProduct(productId, 1)
+      await addToCart(productId)
       setNotice({
         tipo: 'success',
         texto: 'Producto agregado a tu carrito.',
         carrito: true,
       })
     } catch (err) {
-      // 409 = el producto ya estaba en el carrito (UNIQUE cart_id + product_id).
+      // 409 = ya estaba en el carrito, o (con el backend nuevo) ya lo compraste.
       if (err.response?.status === 409) {
         setNotice({
           tipo: 'info',
-          texto: 'Este producto ya está en tu carrito.',
+          texto: err.response.data?.message ?? 'Este producto ya está en tu carrito.',
           carrito: true,
         })
       } else {
