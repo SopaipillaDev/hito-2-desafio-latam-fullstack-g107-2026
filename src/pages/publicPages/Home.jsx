@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { useProducts } from '../../hooks/useProducts'
 import { useCategories } from '../../hooks/useCategories'
 import ProductCard from '../../components/ProductCard'
@@ -59,14 +60,17 @@ function Home() {
         <div className="row g-4">
           {categories.map((category) => (
             <div className="col-6 col-lg-3" key={category.id}>
-              <div className="card h-100 border-0 shadow-sm text-center">
+              <Link
+                to={`/galeria?category=${category.slug}`}
+                className="card h-100 border-0 shadow-sm text-center text-decoration-none text-reset"
+              >
                 <div className="card-body">
                   <i
                     className={`bi ${CATEGORY_ICONS[category.slug] ?? 'bi-tag'} fs-1 text-primary`}
                   />
                   <h3 className="h6 mt-3 mb-0">{category.name}</h3>
                 </div>
-              </div>
+              </Link>
             </div>
           ))}
         </div>
