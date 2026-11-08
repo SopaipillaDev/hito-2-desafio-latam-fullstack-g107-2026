@@ -36,11 +36,12 @@ function ProductCard({ product }) {
 
   return (
     <article className="card h-100 shadow-sm">
+      {/* La portada llena el ancho de la tarjeta en proporción 3:2 (sin franjas vacías). */}
       <img
-        src={product.cover_url}
-        className="card-img-top p-3"
+        src={product.cover_url ?? 'https://placehold.co/600x400?text=Sin+imagen'}
+        className="card-img-top"
         alt={product.name}
-        style={{ height: '180px', objectFit: 'contain' }}
+        style={{ aspectRatio: '3 / 2', objectFit: 'cover' }}
       />
       <div className="card-body d-flex flex-column">
         <span className="badge text-bg-light align-self-start mb-2">
@@ -61,7 +62,7 @@ function ProductCard({ product }) {
         <div className="d-flex gap-2">
           <Link
             to={`/producto/${product.id}`}
-            className="btn btn-outline-primary btn-sm flex-grow-1"
+            className="btn btn-primary btn-sm flex-grow-1"
           >
             Ver producto
           </Link>

@@ -116,12 +116,13 @@ function MisCompras() {
       ) : (
         orders.length > 0 && (
           <div className="table-responsive">
-            <table className="table align-middle">
+            <table className="table align-middle tabla-compras">
               <thead>
                 <tr>
                   <th scope="col">Orden</th>
-                  <th scope="col">Fecha</th>
-                  <th scope="col" className="text-center">Productos</th>
+                  {/* En pantallas angostas se ocultan Fecha y Productos: la tabla cabe sin scroll horizontal. */}
+                  <th scope="col" className="d-none d-sm-table-cell">Fecha</th>
+                  <th scope="col" className="text-center d-none d-md-table-cell">Productos</th>
                   <th scope="col" className="text-center">Estado</th>
                   <th scope="col" className="text-end">Total</th>
                   <th scope="col" />
@@ -135,14 +136,14 @@ function MisCompras() {
                     <Fragment key={order.id}>
                       <tr>
                         <td className="fw-semibold">#{order.id}</td>
-                        <td>{formatDate(order.created_at)}</td>
-                        <td className="text-center">{order.items_count}</td>
+                        <td className="d-none d-sm-table-cell">{formatDate(order.created_at)}</td>
+                        <td className="text-center d-none d-md-table-cell">{order.items_count}</td>
                         <td className="text-center">
                           <span className={`badge ${STATUS_BADGES[order.status] ?? 'text-bg-light'}`}>
                             {STATUS_LABELS[order.status] ?? order.status}
                           </span>
                         </td>
-                        <td className="text-end fw-bold">
+                        <td className="text-end fw-bold text-nowrap">
                           {formatCurrency(order.total)}
                         </td>
                         <td className="text-end">
@@ -151,8 +152,10 @@ function MisCompras() {
                             className="btn btn-sm btn-outline-primary"
                             onClick={() => handleToggleDetail(order)}
                             aria-expanded={isOpen}
+                            aria-label={isOpen ? `Ocultar detalle de la orden ${order.id}` : `Ver detalle de la orden ${order.id}`}
                           >
-                            {isOpen ? 'Ocultar' : 'Ver detalle'}
+                            <i className={`bi ${isOpen ? 'bi-chevron-up' : 'bi-chevron-down'}`} aria-hidden="true" />
+                            <span className="d-none d-sm-inline ms-1">{isOpen ? 'Ocultar' : 'Ver detalle'}</span>
                           </button>
                         </td>
                       </tr>
@@ -165,16 +168,18 @@ function MisCompras() {
                             ) : detail.error ? (
                               <p className="text-danger mb-0">{detail.error}</p>
                             ) : (
-                              <div className="row g-4 py-2">
+                              // mx-0: un .row tiene márgenes negativos a los lados; dentro de una celda
+                              // sobresalía unos píxeles y activaba el scroll horizontal de la tabla.
+                              <div className="row g-4 py-2 mx-0">
                                 <div className="col-md-7">
                                   <h2 className="h6">Productos</h2>
                                   <ul className="list-unstyled mb-0">
                                     {detail.items.map((item) => (
-                                      <li key={item.id} className="d-flex justify-content-between">
+                                      <li key={item.product_id} className="d-flex justify-content-between gap-2">
                                         <span>
                                           {item.name} × {item.quantity}
                                         </span>
-                                        <span>{formatCurrency(item.subtotal)}</span>
+                                        <span className="text-nowrap">{formatCurrency(item.subtotal)}</span>
                                       </li>
                                     ))}
                                   </ul>
@@ -189,16 +194,18 @@ function MisCompras() {
                                     <p className="text-muted mb-0">No hay archivos disponibles.</p>
                                   ) : (
                                     <div className="d-flex flex-column gap-2">
+                                      {/* El backend envía file_name y file_url. Antes se leía file.name y
+                                          file.url (undefined): el botón decía solo "Descargar" y no descargaba. */}
                                       {detail.files.map((file) => (
                                         <a
-                                          key={file.id}
-                                          href={file.url}
+                                          key={file.file_url}
+                                          href={file.file_url}
                                           target="_blank"
                                           rel="noreferrer"
-                                          className="btn btn-sm btn-outline-success text-start"
+                                          className="btn btn-sm btn-outline-success text-start text-wrap text-break"
                                         >
-                                          <i className="bi bi-download me-2" />
-                                          Descargar {file.name}
+                                          <i className="bi bi-download me-2" aria-hidden="true" />
+                                          Descargar {file.file_name}
                                         </a>
                                       ))}
                                     </div>

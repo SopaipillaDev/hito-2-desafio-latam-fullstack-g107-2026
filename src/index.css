@@ -4,10 +4,18 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Fondo de página oscuro. Antes era gris (#5d6164): las tarjetas y paneles
+   oscuros quedaban como "islas" con márgenes grises alrededor y el texto
+   secundario bajaba a un contraste de 3,5:1. Con este fondo sube a 8:1. */
 body {
   margin: 0;
   min-height: 100vh;
-  background-color: #5d6164;
+  background-color: #181a1f;
+}
+
+/* Con el Navbar fijo arriba, los saltos a un ancla (#destacados) no quedan tapados. */
+[id] {
+  scroll-margin-top: 5rem;
 }
 
 /* Bootstrap limita el ancho del contenedor por breakpoint; se amplía para reducir el espacio vacío a los costados. */
@@ -16,3 +24,119 @@ body {
 @media (min-width: 992px)  { .container { max-width: 1400px; } }
 @media (min-width: 1200px) { .container { max-width: 1400px; } }
 @media (min-width: 1400px) { .container { max-width: 1600px; } }
+
+/* ------------------------------------------------------------------
+   Botones y textos de color legibles en modo oscuro.
+   Bootstrap usa los mismos colores en modo claro y oscuro para los
+   botones con contorno: sobre fondo oscuro quedan en ~3,4:1 de contraste
+   (el mínimo recomendado para texto es 4,5:1). Aquí se usan los tonos
+   claros que el propio Bootstrap define para modo oscuro (~6–7:1).
+   Al pasar el mouse, el botón se rellena con el mismo tono que los
+   botones rellenos de más abajo (texto blanco a ~5,9:1).
+   ------------------------------------------------------------------ */
+[data-bs-theme='dark'] .btn-outline-primary {
+  --bs-btn-color: #6ea8fe;
+  --bs-btn-border-color: #6ea8fe;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #0b5ed7;
+  --bs-btn-hover-border-color: #0b5ed7;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: #0a58ca;
+  --bs-btn-active-border-color: #0a53be;
+  --bs-btn-disabled-color: #6ea8fe;
+  --bs-btn-disabled-border-color: #6ea8fe;
+}
+
+[data-bs-theme='dark'] .btn-outline-secondary {
+  --bs-btn-color: #ced4da;
+  --bs-btn-border-color: #6c757d;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #6c757d;
+  --bs-btn-hover-border-color: #6c757d;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: #5c636a;
+  --bs-btn-active-border-color: #565e64;
+  --bs-btn-disabled-color: #adb5bd;
+  --bs-btn-disabled-border-color: #6c757d;
+}
+
+[data-bs-theme='dark'] .btn-outline-success {
+  --bs-btn-color: #75b798;
+  --bs-btn-border-color: #75b798;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #157347;
+  --bs-btn-hover-border-color: #157347;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: #146c43;
+  --bs-btn-active-border-color: #13653f;
+}
+
+[data-bs-theme='dark'] .btn-outline-danger {
+  --bs-btn-color: #ea868f;
+  --bs-btn-border-color: #ea868f;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #bb2d3b;
+  --bs-btn-hover-border-color: #bb2d3b;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: #b02a37;
+  --bs-btn-active-border-color: #a52834;
+}
+
+/* Precios e íconos azules (text-primary) en el tono claro. */
+[data-bs-theme='dark'] .text-primary {
+  color: #6ea8fe !important;
+}
+
+/* ------------------------------------------------------------------
+   Botones rellenos: un tono más oscuro en modo oscuro.
+   Con el azul, rojo y verde originales, el texto blanco queda justo en
+   el mínimo (4,50–4,53:1). Un tono más oscuro (el que Bootstrap usa al
+   pasar el mouse) lo sube a ~5,9:1. El texto se lee mejor; el botón
+   sigue destacando sobre la tarjeta por su color de relleno.
+   ------------------------------------------------------------------ */
+[data-bs-theme='dark'] .btn-primary {
+  --bs-btn-bg: #0b5ed7;
+  --bs-btn-border-color: #0b5ed7;
+  --bs-btn-hover-bg: #0a58ca;
+  --bs-btn-hover-border-color: #0a58ca;
+  --bs-btn-active-bg: #0a53be;
+  --bs-btn-active-border-color: #0a53be;
+  --bs-btn-disabled-bg: #0b5ed7;
+  --bs-btn-disabled-border-color: #0b5ed7;
+}
+
+[data-bs-theme='dark'] .btn-danger {
+  --bs-btn-bg: #bb2d3b;
+  --bs-btn-border-color: #bb2d3b;
+  --bs-btn-hover-bg: #b02a37;
+  --bs-btn-hover-border-color: #b02a37;
+  --bs-btn-active-bg: #a52834;
+  --bs-btn-active-border-color: #a52834;
+  --bs-btn-disabled-bg: #bb2d3b;
+  --bs-btn-disabled-border-color: #bb2d3b;
+}
+
+[data-bs-theme='dark'] .btn-success {
+  --bs-btn-bg: #157347;
+  --bs-btn-border-color: #157347;
+  --bs-btn-hover-bg: #146c43;
+  --bs-btn-hover-border-color: #146c43;
+  --bs-btn-active-bg: #13653f;
+  --bs-btn-active-border-color: #13653f;
+  --bs-btn-disabled-bg: #157347;
+  --bs-btn-disabled-border-color: #157347;
+}
+
+/* Letra de botones un poco más gruesa: a igual contraste, un trazo más
+   grueso se lee mejor en tamaños chicos (btn-sm = 14 px). */
+[data-bs-theme='dark'] .btn {
+  --bs-btn-font-weight: 600;
+}
+
+/* Mis compras: en teléfonos (< 576 px) las celdas usan la mitad del relleno
+   lateral (0,25rem en vez de 0,5rem). Así la tabla cabe incluso en 320 px. */
+@media (max-width: 575.98px) {
+  .tabla-compras > :not(caption) > * > * {
+    padding-inline: 0.25rem;
+  }
+}
