@@ -48,7 +48,9 @@ export function CartProvider({ children })
     {
       try
       {
-        const [cart, ownedIds] = await Promise.all([getCart(), cargarComprados()])
+        // Si fallan las compras, el carrito igual se muestra (el backend
+        // de todas formas rechaza volver a comprar un curso ya pagado).
+        const [cart, ownedIds] = await Promise.all([getCart(), cargarComprados().catch(() => [])])
 
         if (isActive)
         {
