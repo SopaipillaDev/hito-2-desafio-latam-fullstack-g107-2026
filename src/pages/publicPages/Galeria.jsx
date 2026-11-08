@@ -56,9 +56,12 @@ function Galeria() {
 
   const pages = totalPages || 1
 
+  // Antes: <main> + .container dentro del <main className="container"> de App.jsx.
+  // Eso duplicaba el margen interior y armaba un panel oscuro sobre el fondo:
+  // espacio muerto alrededor del catálogo. Ahora la Galería usa el contenedor de App.
   return (
-    <main className="bg-dark text-light min-vh-100 py-2 rounded-3">
-      <div className="container">
+    <section className="text-light">
+      <div>
         {/* Encabezado */}
         <div className="mb-3">
           <h1 className="display-5 fw-bold">Galería de productos</h1>
@@ -111,7 +114,8 @@ function Galeria() {
             <div className="card text-light border-secondary">
               <div className="card-body">
                 <h2 className="h5 mb-3">Categorías</h2>
-                <div className="d-flex flex-column gap-2">
+                {/* En móvil, fichas en fila (no 5 botones apilados antes de los cursos); en escritorio, columna. */}
+                <div className="d-flex flex-wrap flex-lg-column gap-2">
                   {[{ id: 'all', name: 'Todas', slug: '' }, ...categories].map(
                     (item) => (
                       <button
@@ -209,7 +213,7 @@ function Galeria() {
           </section>
         </div>
       </div>
-    </main>
+    </section>
   )
 }
 

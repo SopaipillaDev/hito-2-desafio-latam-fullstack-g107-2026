@@ -10,7 +10,8 @@ function NotFound() {
       <p className="text-muted mb-4">
         La página que buscas no existe o fue movida.
       </p>
-      <Link to="/" className="btn btn-dark">
+      {/* btn-dark era casi invisible sobre el fondo (2,5:1): la acción principal va en btn-primary. */}
+      <Link to="/" className="btn btn-primary">
         Volver al inicio
       </Link>
     </div>

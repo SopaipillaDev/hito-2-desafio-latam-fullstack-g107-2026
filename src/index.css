@@ -4,10 +4,18 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Fondo de página oscuro. Antes era gris (#5d6164): las tarjetas y paneles
+   oscuros quedaban como "islas" con márgenes grises alrededor y el texto
+   secundario bajaba a un contraste de 3,5:1. Con este fondo sube a 8:1. */
 body {
   margin: 0;
   min-height: 100vh;
-  background-color: #5d6164;
+  background-color: #181a1f;
+}
+
+/* Con el Navbar fijo arriba, los saltos a un ancla (#destacados) no quedan tapados. */
+[id] {
+  scroll-margin-top: 5rem;
 }
 
 /* Bootstrap limita el ancho del contenedor por breakpoint; se amplía para reducir el espacio vacío a los costados. */
@@ -16,3 +24,64 @@ body {
 @media (min-width: 992px)  { .container { max-width: 1400px; } }
 @media (min-width: 1200px) { .container { max-width: 1400px; } }
 @media (min-width: 1400px) { .container { max-width: 1600px; } }
+
+/* ------------------------------------------------------------------
+   Botones y textos de color legibles en modo oscuro.
+   Bootstrap usa los mismos colores en modo claro y oscuro para los
+   botones con contorno: sobre fondo oscuro quedan en ~3,4:1 de contraste
+   (el mínimo recomendado para texto es 4,5:1). Aquí se usan los tonos
+   claros que el propio Bootstrap define para modo oscuro (~6–7:1).
+   Al pasar el mouse, el botón se rellena con el color original.
+   ------------------------------------------------------------------ */
+[data-bs-theme='dark'] .btn-outline-primary {
+  --bs-btn-color: #6ea8fe;
+  --bs-btn-border-color: #6ea8fe;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #0d6efd;
+  --bs-btn-hover-border-color: #0d6efd;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: #0a58ca;
+  --bs-btn-active-border-color: #0a53be;
+  --bs-btn-disabled-color: #6ea8fe;
+  --bs-btn-disabled-border-color: #6ea8fe;
+}
+
+[data-bs-theme='dark'] .btn-outline-secondary {
+  --bs-btn-color: #ced4da;
+  --bs-btn-border-color: #6c757d;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #6c757d;
+  --bs-btn-hover-border-color: #6c757d;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: #5c636a;
+  --bs-btn-active-border-color: #565e64;
+  --bs-btn-disabled-color: #adb5bd;
+  --bs-btn-disabled-border-color: #6c757d;
+}
+
+[data-bs-theme='dark'] .btn-outline-success {
+  --bs-btn-color: #75b798;
+  --bs-btn-border-color: #75b798;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #198754;
+  --bs-btn-hover-border-color: #198754;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: #146c43;
+  --bs-btn-active-border-color: #13653f;
+}
+
+[data-bs-theme='dark'] .btn-outline-danger {
+  --bs-btn-color: #ea868f;
+  --bs-btn-border-color: #ea868f;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #dc3545;
+  --bs-btn-hover-border-color: #dc3545;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: #b02a37;
+  --bs-btn-active-border-color: #a52834;
+}
+
+/* Precios e íconos azules (text-primary) en el tono claro. */
+[data-bs-theme='dark'] .text-primary {
+  color: #6ea8fe !important;
+}
